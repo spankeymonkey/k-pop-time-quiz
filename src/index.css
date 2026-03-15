@@ -1,0 +1,56 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply bg-dark-bg text-white min-h-screen;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+      'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+      sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  * {
+    @apply box-border;
+  }
+}
+
+@layer utilities {
+  .text-glow-blue {
+    text-shadow: 0 0 10px #00f0ff, 0 0 20px #00f0ff;
+  }
+
+  .text-glow-pink {
+    text-shadow: 0 0 10px #ff00ff, 0 0 20px #ff00ff;
+  }
+
+  .text-glow-green {
+    text-shadow: 0 0 10px #00ff88, 0 0 20px #00ff88;
+  }
+
+  .text-glow-purple {
+    text-shadow: 0 0 10px #b400ff, 0 0 20px #b400ff;
+  }
+
+  .border-glow-blue {
+    border-color: #00f0ff;
+    box-shadow: 0 0 10px #00f0ff, 0 0 20px #00f0ff, inset 0 0 10px rgba(0, 240, 255, 0.2);
+  }
+
+  .border-glow-pink {
+    border-color: #ff00ff;
+    box-shadow: 0 0 10px #ff00ff, 0 0 20px #ff00ff, inset 0 0 10px rgba(255, 0, 255, 0.2);
+  }
+
+  .border-glow-green {
+    border-color: #00ff88;
+    box-shadow: 0 0 10px #00ff88, 0 0 20px #00ff88, inset 0 0 10px rgba(0, 255, 136, 0.2);
+  }
+
+  .border-glow-purple {
+    border-color: #b400ff;
+    box-shadow: 0 0 10px #b400ff, 0 0 20px #b400ff, inset 0 0 10px rgba(180, 0, 255, 0.2);
+  }
+}
