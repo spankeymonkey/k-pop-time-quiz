@@ -18,20 +18,20 @@ export default function DigitalClock({ time }) {
         <div className="absolute inset-0 bg-neon-blue opacity-20 blur-2xl rounded-lg"></div>
         
         {/* Main display */}
-        <div className="relative bg-dark-bg border-4 border-neon-blue rounded-2xl px-12 py-8 shadow-neon-blue">
-          <div className="flex items-center justify-center gap-4">
+        <div className="relative bg-dark-bg border-4 border-neon-blue rounded-2xl px-10 py-6 shadow-neon-blue">
+          <div className="flex items-center justify-center gap-3">
             {/* Hour */}
-            <div className="text-8xl font-bold text-neon-blue text-glow-blue font-mono">
+            <div className="text-7xl font-bold text-neon-blue text-glow-blue font-mono">
               {hourStr}
             </div>
             
             {/* Colon separator with blinking animation */}
-            <div className="text-8xl font-bold text-neon-pink text-glow-pink animate-pulse">
+            <div className="text-7xl font-bold text-neon-pink text-glow-pink animate-pulse">
               :
             </div>
             
             {/* Minute */}
-            <div className="text-8xl font-bold text-neon-green text-glow-green font-mono">
+            <div className="text-7xl font-bold text-neon-green text-glow-green font-mono">
               {minuteStr}
             </div>
           </div>

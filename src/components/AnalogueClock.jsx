@@ -13,7 +13,7 @@ export default function AnalogueClock({ time }) {
   const hourAngle = ((hour % 12) * 30 + minute * 0.5) - 90; // -90 to start at 12 o'clock
   const minuteAngle = (minute * 6) - 90;
   
-  const clockSize = 300;
+  const clockSize = 280;
   const center = clockSize / 2;
   const radius = clockSize / 2 - 20;
   
