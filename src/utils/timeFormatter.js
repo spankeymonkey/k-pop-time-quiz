@@ -1,44 +1,38 @@
 /**
  * Converts a time (HH:MM format) to spoken English format
  * @param {string} time - Time in HH:MM format (e.g., "14:30")
- * @returns {string} - Spoken time format (e.g., "It's half past two")
+ * @returns {string} - Spoken time phrase (e.g., "Half past two")
  */
 export function formatTimeToSpoken(time) {
   const [hours, minutes] = time.split(':').map(Number);
   const hour12 = hours % 12 || 12;
   const hourName = getHourName(hour12);
-  
+
+  let phrase;
   if (minutes === 0) {
-    return `It's ${hourName} o'clock`;
-  }
-  
-  if (minutes === 15) {
-    return `It's quarter past ${hourName}`;
-  }
-  
-  if (minutes === 30) {
-    return `It's half past ${hourName}`;
-  }
-  
-  if (minutes === 45) {
+    phrase = `${hourName} o'clock`;
+  } else if (minutes === 15) {
+    phrase = `quarter past ${hourName}`;
+  } else if (minutes === 30) {
+    phrase = `half past ${hourName}`;
+  } else if (minutes === 45) {
     const nextHour = (hours + 1) % 24;
     const nextHour12 = nextHour % 12 || 12;
     const nextHourName = getHourName(nextHour12);
-    return `It's quarter to ${nextHourName}`;
-  }
-  
-  if (minutes < 30) {
+    phrase = `quarter to ${nextHourName}`;
+  } else if (minutes < 30) {
     const minuteWord = minutes === 1 ? 'minute' : 'minutes';
-    return `It's ${minutes} ${minuteWord} past ${hourName}`;
+    phrase = `${minutes} ${minuteWord} past ${hourName}`;
+  } else {
+    const minutesTo = 60 - minutes;
+    const nextHour = (hours + 1) % 24;
+    const nextHour12 = nextHour % 12 || 12;
+    const nextHourName = getHourName(nextHour12);
+    const minuteWord = minutesTo === 1 ? 'minute' : 'minutes';
+    phrase = `${minutesTo} ${minuteWord} to ${nextHourName}`;
   }
-  
-  // minutes > 30
-  const minutesTo = 60 - minutes;
-  const nextHour = (hours + 1) % 24;
-  const nextHour12 = nextHour % 12 || 12;
-  const nextHourName = getHourName(nextHour12);
-  const minuteWord = minutesTo === 1 ? 'minute' : 'minutes';
-  return `It's ${minutesTo} ${minuteWord} to ${nextHourName}`;
+
+  return phrase.charAt(0).toUpperCase() + phrase.slice(1);
 }
 
 /**

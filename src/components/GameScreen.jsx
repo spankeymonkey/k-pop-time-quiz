@@ -5,6 +5,8 @@ import AnalogueClock from './AnalogueClock.jsx';
 import DigitalClock from './DigitalClock.jsx';
 import { Sparkles, Ghost } from 'lucide-react';
 
+const QUESTIONS_PER_ROUND = 5;
+
 export default function GameScreen() {
   const location = useLocation();
   const navigate = useNavigate();
@@ -23,7 +25,7 @@ export default function GameScreen() {
   const [score, setScore] = useState(0);
   const [scores, setScores] = useState(initialScores);
   const [showSparkles, setShowSparkles] = useState(false);
-  const [answerResults, setAnswerResults] = useState(Array(10).fill(null)); // Track correct/incorrect for each question
+  const [answerResults, setAnswerResults] = useState(Array(QUESTIONS_PER_ROUND).fill(null));
 
   const levelNames = {
     1: 'Recruit',
@@ -39,12 +41,13 @@ export default function GameScreen() {
     setSelectedAnswer(null);
     setFeedback(null);
     setShowSparkles(false);
+    document.activeElement?.blur?.();
   }, [level, questionIndex]);
 
   // Reset answer results when starting a new level
   useEffect(() => {
     if (questionIndex === 0) {
-      setAnswerResults(Array(10).fill(null));
+      setAnswerResults(Array(QUESTIONS_PER_ROUND).fill(null));
       setScore(0);
     }
   }, [level]);
@@ -100,13 +103,14 @@ export default function GameScreen() {
   const advanceToNext = (finalScore = null) => {
     const scoreToUse = finalScore !== null ? finalScore : score;
     
-    if (questionIndex < 9) {
-      // Move to next question
-      setQuestionIndex(questionIndex + 1);
+    if (questionIndex < QUESTIONS_PER_ROUND - 1) {
+      setSelectedAnswer(null);
+      setFeedback(null);
+      setQuestionIndex((i) => i + 1);
     } else {
       // Level complete
       const levelScore = scoreToUse;
-      const newScores = [...scores, { level, score: levelScore, total: 10 }];
+      const newScores = [...scores, { level, score: levelScore, total: QUESTIONS_PER_ROUND }];
       setScores(newScores);
       
       if (level < 4) {
@@ -116,7 +120,7 @@ export default function GameScreen() {
             mode,
             level,
             levelScore,
-            totalQuestions: 10,
+            totalQuestions: QUESTIONS_PER_ROUND,
             scores: newScores,
             nextLevel: level + 1,
           },
@@ -128,7 +132,7 @@ export default function GameScreen() {
             mode,
             level: 4,
             levelScore: levelScore,
-            totalQuestions: 10,
+            totalQuestions: QUESTIONS_PER_ROUND,
             scores: newScores,
             isFinal: true,
           },
@@ -173,7 +177,7 @@ export default function GameScreen() {
         
         {/* Demon icons progress tracker */}
         <div className="flex justify-center items-center gap-2 mt-4">
-          {Array.from({ length: 10 }).map((_, i) => {
+          {Array.from({ length: QUESTIONS_PER_ROUND }).map((_, i) => {
             const result = answerResults[i];
             let iconColor = 'text-gray-500'; // Grey for unanswered
             if (result === 'correct') {
@@ -221,7 +225,7 @@ export default function GameScreen() {
         )}
 
         {/* Answer options - smaller buttons */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-4 w-full max-w-3xl">
+        <div className="grid grid-cols-2 gap-3 md:gap-4 w-full max-w-3xl">
           {currentQuestion.options.map((option, index) => {
             const isSelected = selectedAnswer === index;
             const isCorrect = index === currentQuestion.correctIndex;
@@ -235,7 +239,7 @@ export default function GameScreen() {
 
             return (
               <button
-                key={index}
+                key={`${level}-${questionIndex}-${index}`}
                 onClick={() => handleAnswerSelect(index)}
                 disabled={isDisabled}
                 className={`
@@ -263,7 +267,7 @@ export default function GameScreen() {
       {/* Score display */}
       <div className="absolute bottom-6 left-0 right-0 text-center">
         <div className="text-lg md:text-xl text-neon-purple">
-          Score: {score}/10
+          Score: {score}/{QUESTIONS_PER_ROUND}
         </div>
       </div>
     </div>
